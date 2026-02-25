@@ -122,6 +122,12 @@ namespace EventManagement.API
             });
 
             var app = builder.Build();
+            // 🔥 RUN MIGRATION HERE (Correct Place)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
 
             // -------------------- MIDDLEWARE --------------------
 
