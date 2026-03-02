@@ -33,9 +33,7 @@ namespace EventManagement.API
                 .AddEnvironmentVariables();
 
 
-            //changed for render deployment
-            var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
-            builder.WebHost.UseUrls($"http://*:{port}");
+      
 
             if (!FirebaseApp.DefaultInstance?.Equals(null) ?? true)
             {
@@ -175,26 +173,26 @@ namespace EventManagement.API
             });
 
             var app = builder.Build();
+            var app = builder.Build();
+
             app.UseCors("AllowFrontend");
-            // -------------------- MIDDLEWARE --------------------
 
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-
-                app.UseHttpsRedirection();
-
-                app.UseStaticFiles();
-
-
-                app.UseAuthentication();
-                app.UseAuthorization();
-
-                app.MapControllers();
-
-                app.Run();
             }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+            app.Run();
+        }
         }
     }
 }
