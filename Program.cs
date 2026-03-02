@@ -18,19 +18,21 @@ namespace EventManagement.API
         {
             //var builder = WebApplication.CreateBuilder(args);
 
-            var options = new WebApplicationOptions
-            {
-                Args = args,
-                EnvironmentName = Environments.Production
-            };
+            //var options = new WebApplicationOptions
+            //{
+            //    Args = args,
+            //    EnvironmentName = Environments.Production
+            //};
 
-            var builder = WebApplication.CreateBuilder(options);
+            //var builder = WebApplication.CreateBuilder(options);
 
-            // Disable reload on change
-            builder.Configuration
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
-                .AddEnvironmentVariables();
+            var builder = WebApplication.CreateBuilder(args);
+
+            //// Disable reload on change
+            //builder.Configuration
+            //    .SetBasePath(Directory.GetCurrentDirectory())
+            //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+            //    .AddEnvironmentVariables();
 
 
       
@@ -86,20 +88,20 @@ namespace EventManagement.API
                 });
 
                 options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-    {
-        {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-            {
-                Reference = new Microsoft.OpenApi.Models.OpenApiReference
-                {
-                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] {}
-        }
-    });
-            });
+                    {
+                        {
+                            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                            {
+                                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                                {
+                                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+                        }
+                    });
+                });
 
 
 
@@ -173,7 +175,7 @@ namespace EventManagement.API
             });
 
             var app = builder.Build();
-            var app = builder.Build();
+            
 
             app.UseCors("AllowFrontend");
 
@@ -193,6 +195,6 @@ namespace EventManagement.API
 
             app.Run();
         }
-        }
+        
     }
 }
