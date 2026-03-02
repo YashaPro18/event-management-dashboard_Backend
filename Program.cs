@@ -144,12 +144,12 @@ namespace EventManagement.API
             //Chaned for render setup CORS
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowAngular",
+                options.AddPolicy("AllowFrontend",
                     policy =>
                     {
                         policy.WithOrigins("https://singular-sherbet-78b787.netlify.app")
-                              .AllowAnyMethod()
-                              .AllowAnyHeader();
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
                     });
             });
 
@@ -175,27 +175,26 @@ namespace EventManagement.API
             });
 
             var app = builder.Build();
-
+            app.UseCors("AllowFrontend");
             // -------------------- MIDDLEWARE --------------------
 
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+
+                app.UseHttpsRedirection();
+
+                app.UseStaticFiles();
+
+
+                app.UseAuthentication();
+                app.UseAuthorization();
+
+                app.MapControllers();
+
+                app.Run();
             }
-
-            app.UseHttpsRedirection();
-
-            app.UseStaticFiles();
-
-            app.UseCors("AllowAngular");
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.MapControllers();
-
-            app.Run();
         }
     }
 }
