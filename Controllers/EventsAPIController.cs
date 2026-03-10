@@ -26,48 +26,87 @@ namespace EventManagement.API.Controllers
 [HttpPost]
     public async Task<IActionResult> CreateEvent(CreateEventDto dto)
     {
-        // 🔑 Get Organizer ID from JWT
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-        if (userIdClaim == null)
-            return Unauthorized();
+            // 🔑 Get Organizer ID from JWT
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (userIdClaim == null)
+                    return Unauthorized();
 
-        int organizerId = int.Parse(userIdClaim.Value);
+                int organizerId = int.Parse(userIdClaim.Value);
 
-        // ✅ MAP DTO → ENTITY (THIS IS THE FIX)
-        var eventEntity = new Event
-        {
-            Title = dto.Title,
-            EventType = dto.EventType,
-            Status = dto.Status,
-            Description = dto.Description,
+                var eventEntity = new Event
+                {
+                    Title = dto.Title,
+                    EventType = dto.EventType,
+                    Status = dto.Status,
+                    Description = dto.Description,
+                    StartDateTime = dto.StartDateTime,
+                    EndDateTime = dto.EndDateTime,
+                    RegistrationDeadline = dto.RegistrationDeadline,
+                    VenueId = dto.VenueId,
+                    Mode = dto.Mode,
+                    LocationOrLink = dto.LocationOrLink,
+                    MaxParticipants = dto.MaxParticipants,
+                    Price = dto.Price,
+                    IsPublic = dto.IsPublic,
+                    BannerImageUrl = dto.BannerImageUrl,
+                    Notes = dto.Notes,
+                    OrganizerId = organizerId,
+                    CreatedAt = DateTime.UtcNow
+                };
 
-            StartDateTime = dto.StartDateTime,
-            EndDateTime = dto.EndDateTime,
-            RegistrationDeadline = dto.RegistrationDeadline,
+                _context.Events.Add(eventEntity);
+                await _context.SaveChangesAsync();
 
-            VenueId = dto.VenueId,
-            Mode = dto.Mode,
-            LocationOrLink = dto.LocationOrLink,
+                return Ok(eventEntity);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
 
-            MaxParticipants = dto.MaxParticipants,
-            Price = dto.Price,
-            IsPublic = dto.IsPublic,
+        //var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        //if (userIdClaim == null)
+        //    return Unauthorized();
 
-            BannerImageUrl = dto.BannerImageUrl,
-            Notes = dto.Notes,
+        //int organizerId = int.Parse(userIdClaim.Value);
 
-            OrganizerId = organizerId,     // 🔒 forced from JWT
-            CreatedAt = DateTime.UtcNow
-        };
+        //// ✅ MAP DTO → ENTITY (THIS IS THE FIX)
+        //var eventEntity = new Event
+        //{
+        //    Title = dto.Title,
+        //    EventType = dto.EventType,
+        //    Status = dto.Status,
+        //    Description = dto.Description,
 
-        _context.Events.Add(eventEntity);
-        await _context.SaveChangesAsync();
+        //    StartDateTime = dto.StartDateTime,
+        //    EndDateTime = dto.EndDateTime,
+        //    RegistrationDeadline = dto.RegistrationDeadline,
 
-        return Ok(eventEntity);
-    }
+        //    VenueId = dto.VenueId,
+        //    Mode = dto.Mode,
+        //    LocationOrLink = dto.LocationOrLink,
 
-    // GET: api/EventsAPI
-    [HttpGet]
+        //    MaxParticipants = dto.MaxParticipants,
+        //    Price = dto.Price,
+        //    IsPublic = dto.IsPublic,
+
+        //    BannerImageUrl = dto.BannerImageUrl,
+        //    Notes = dto.Notes,
+
+        //    OrganizerId = organizerId,     // 🔒 forced from JWT
+        //    CreatedAt = DateTime.UtcNow
+        //};
+
+        //_context.Events.Add(eventEntity);
+        //await _context.SaveChangesAsync();
+
+        //return Ok(eventEntity);
+
+        // GET: api/EventsAPI
+        [HttpGet]
         public async Task<IActionResult> GetEvents()
         {
             var events = await _context.Events
