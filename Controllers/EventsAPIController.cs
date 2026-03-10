@@ -114,7 +114,7 @@ namespace EventManagement.API.Controllers
         {
             var events = await _context.Events
                 .Include(e => e.Venue)
-                //.Include(e => e.Organizer)
+                .Include(e => e.Organizer)
                 .OrderByDescending(e => e.CreatedAt)
                 .ToListAsync();
 
@@ -126,7 +126,7 @@ namespace EventManagement.API.Controllers
         public async Task<IActionResult> GetEventById(int id)
         {
             var eventEntity = await _context.Events
-                //.Include(e => e.Organizer)
+                .Include(e => e.Organizer)
                 .Include(e => e.Venue)
                 .FirstOrDefaultAsync(e => e.Id == id);
 
