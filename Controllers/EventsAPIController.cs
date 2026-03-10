@@ -41,9 +41,11 @@ namespace EventManagement.API.Controllers
                     EventType = dto.EventType,
                     Status = dto.Status,
                     Description = dto.Description,
-                    StartDateTime = dto.StartDateTime,
-                    EndDateTime = dto.EndDateTime,
-                    RegistrationDeadline = dto.RegistrationDeadline,
+
+                    StartDateTime = DateTime.SpecifyKind(dto.StartDateTime, DateTimeKind.Utc),
+                    EndDateTime = DateTime.SpecifyKind(dto.EndDateTime, DateTimeKind.Utc),
+                    RegistrationDeadline = DateTime.SpecifyKind(dto.RegistrationDeadline, DateTimeKind.Utc),
+
                     VenueId = dto.VenueId,
                     Mode = dto.Mode,
                     LocationOrLink = dto.LocationOrLink,
@@ -53,6 +55,7 @@ namespace EventManagement.API.Controllers
                     BannerImageUrl = dto.BannerImageUrl,
                     Notes = dto.Notes,
                     OrganizerId = organizerId,
+
                     CreatedAt = DateTime.UtcNow
                 };
 
