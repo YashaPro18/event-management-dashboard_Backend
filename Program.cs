@@ -143,18 +143,17 @@ namespace EventManagement.API
             //});
 
             //Chaned for render setup CORS
+            var frontendUrl = builder.Configuration["FRONTEND_URL"];
+
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowFrontend",
-                    policy =>
-                    {
-                        policy.WithOrigins("https://singular-sherbet-78b787.netlify.app")
-                              .AllowAnyHeader()
-                              .AllowAnyMethod()
-                              .AllowCredentials();
-                    });
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy.WithOrigins(frontendUrl)
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
             });
-
 
 
 
