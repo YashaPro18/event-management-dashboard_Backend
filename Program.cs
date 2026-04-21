@@ -188,6 +188,8 @@ namespace EventManagement.API
                 ));
             });
 
+            var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
+            builder.WebHost.UseUrls($"http://*:{port}");
             var app = builder.Build();
 
 
