@@ -156,17 +156,26 @@ namespace EventManagement.API
             //});
 
             //Chaned for render setup CORS
-            var frontendUrl = builder.Configuration["FRONTEND_URL"];
-
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowFrontend", policy =>
                 {
-                    policy.WithOrigins(frontendUrl)
+                    policy.WithOrigins("https://eventsphere100.netlify.app")
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
             });
+            //var frontendUrl = builder.Configuration["FRONTEND_URL"];
+
+            //builder.Services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowFrontend", policy =>
+            //    {
+            //        policy.WithOrigins(frontendUrl!)
+            //              .AllowAnyHeader()
+            //              .AllowAnyMethod();
+            //    });
+            //});
 
 
 
