@@ -26,7 +26,20 @@ namespace EventManagement.API
 
             //var builder = WebApplication.CreateBuilder(options);
 
-            var builder = WebApplication.CreateBuilder(args);
+            //var builder = WebApplication.CreateBuilder(args);
+            var options = new WebApplicationOptions
+            {
+                Args = args,
+                EnvironmentName = Environments.Production
+            };
+
+            var builder = WebApplication.CreateBuilder(options);
+
+            // Disable file watching (IMPORTANT for Render)
+            builder.Configuration
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+                .AddEnvironmentVariables();
 
             //// Disable reload on change
             //builder.Configuration
@@ -35,7 +48,7 @@ namespace EventManagement.API
             //    .AddEnvironmentVariables();
 
 
-      
+
 
             if (!FirebaseApp.DefaultInstance?.Equals(null) ?? true)
             {
